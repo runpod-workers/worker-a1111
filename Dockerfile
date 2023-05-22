@@ -75,7 +75,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 RUN --mount=type=cache,target=/root/.cache/pip  pip install -U opencv-python-headless
 
-COPY . /docker
+# COPY . /docker
 
 # RUN \
 #     python3 /docker/info.py ${ROOT}/modules/ui.py && \
@@ -84,11 +84,6 @@ COPY . /docker
 #     sed -i 's/in_app_dir = .*/in_app_dir = True/g' /usr/local/lib/python3.10/site-packages/gradio/routes.py && \
 #     git config --global --add safe.directory '*'
 
-WORKDIR /
-RUN wget -O model.safetensors https://civitai.com/api/download/models/15236 --content-disposition
-WORKDIR /stable-diffusion-webui
-ADD cache.py .
-RUN python cache.py --use-cpu=all --ckpt /model.safetensors
 
 # Install Python dependencies (Worker Template)
 COPY builder/requirements.txt /requirements.txt
@@ -97,11 +92,15 @@ RUN pip install --upgrade pip && \
     rm /requirements.txt
 
 ADD src .
-RUN chmod +x /start.sh
+
+RUN wget -O model.safetensors https://civitai.com/api/download/models/15236 --content-disposition
+COPY builder/cache.py /stable-diffusion-webui/cache.py
+RUN cd /stable-diffusion-webui && python cache.py --use-cpu=all --ckpt /model.safetensors
 
 # Cleanup section (Worker Template)
 RUN apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 
+RUN chmod +x /start.sh
 CMD start.sh
