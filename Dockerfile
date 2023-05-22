@@ -9,8 +9,14 @@ WORKDIR /
 
 # Set the environment variables
 ENV DEBIAN_FRONTEND=noninteractive
-ENV PATH="/workspace/venv/bin:$PATH"
-ENV PATH="${PATH}:/workspace/stable-diffusion-webui/venv/bin"
+ENV PATH="/venv/bin:$PATH"
+ENV PATH="${PATH}:/stable-diffusion-webui/venv/bin"
+
+# Install the stable-diffusion-webui & download the model
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
+    wget -O model.safetensors https://civitai.com/api/download/models/15236 --content-disposition && \
+    cd stable-diffusion-webui && \
+    pip install -r requirements.txt
 
 # Update and upgrade the system packages
 RUN apt update && \
@@ -45,16 +51,11 @@ RUN pip install --upgrade pip && \
     pip install -r /requirements.txt --no-cache-dir && \
     rm /requirements.txt
 
-# Install the stable-diffusion-webui
-RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /workspace
 
-
-# Download the model
-RUN wget -O model.safetensors https://civitai.com/api/download/models/15236 --content-disposition
 
 # Add src files and execute cache.py
-COPY builder/cache.py /workspace/stable-diffusion-webui/cache.py
-RUN python /workspace/stable-diffusion-webui/cache.py --use-cpu=all --ckpt /model.safetensors
+COPY builder/cache.py /stable-diffusion-webui/cache.py
+RUN python /stable-diffusion-webui/cache.py --use-cpu=all --ckpt /model.safetensors
 
 # Setup the API server using supervisor
 RUN mkdir -p /var/log/supervisor
