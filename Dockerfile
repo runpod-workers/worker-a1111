@@ -55,7 +55,7 @@ RUN pip install --upgrade pip && \
 
 # Add src files and execute cache.py
 COPY builder/cache.py /stable-diffusion-webui/cache.py
-RUN python /stable-diffusion-webui/cache.py --use-cpu=all --ckpt /model.safetensors
+RUN cd /stable-diffusion-webui && python cache.py --use-cpu=all --ckpt /model.safetensors
 
 # Setup the API server using supervisor
 RUN mkdir -p /var/log/supervisor
