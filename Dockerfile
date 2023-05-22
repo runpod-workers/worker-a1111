@@ -66,7 +66,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 # instead, update the repo state in a later step
 
 # TODO: either remove if fixed in A1111 (unlikely) or move to the top with other apt stuff
-RUN apt-get -y install wget libgoogle-perftools-dev supervisor && apt-get clean
+RUN apt-get -y install wget libgoogle-perftools-dev && apt-get clean
 ENV LD_PRELOAD=libtcmalloc.so
 
 ARG SHA=89f9faa63388756314e8a1d96cf86bf5e0663045
@@ -83,10 +83,6 @@ COPY builder/requirements.txt /requirements.txt
 RUN pip install --upgrade pip && \
     pip install -r /requirements.txt --no-cache-dir && \
     rm /requirements.txt
-
-# Setup the API server using supervisor
-RUN mkdir -p /var/log/supervisor
-COPY builder/webui_api.conf /etc/supervisor/conf.d/supervisord.conf
 
 ADD src .
 
