@@ -77,12 +77,12 @@ RUN --mount=type=cache,target=/root/.cache/pip  pip install -U opencv-python-hea
 
 COPY . /docker
 
-RUN \
-    python3 /docker/info.py ${ROOT}/modules/ui.py && \
-    mv ${ROOT}/style.css ${ROOT}/user.css && \
-    # one of the ugliest hacks I ever wrote \
-    sed -i 's/in_app_dir = .*/in_app_dir = True/g' /usr/local/lib/python3.10/site-packages/gradio/routes.py && \
-    git config --global --add safe.directory '*'
+# RUN \
+#     python3 /docker/info.py ${ROOT}/modules/ui.py && \
+#     mv ${ROOT}/style.css ${ROOT}/user.css && \
+#     # one of the ugliest hacks I ever wrote \
+#     sed -i 's/in_app_dir = .*/in_app_dir = True/g' /usr/local/lib/python3.10/site-packages/gradio/routes.py && \
+#     git config --global --add safe.directory '*'
 
 WORKDIR /
 RUN wget -O model.safetensors https://civitai.com/api/download/models/15236 --content-disposition
