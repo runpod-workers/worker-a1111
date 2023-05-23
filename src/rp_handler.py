@@ -3,7 +3,7 @@ import requests
 from requests.adapters import HTTPAdapter, Retry
 
 automatic_session = requests.Session()
-retries = Retry(total=60, backoff_factor=0.01, status_forcelist=[502, 503, 504])
+retries = Retry(total=100, backoff_factor=0.01, status_forcelist=[502, 503, 504])
 automatic_session.mount('http://', HTTPAdapter(max_retries=retries))
 
 
