@@ -66,11 +66,12 @@ RUN mkdir ${ROOT}/interrogate && cp ${ROOT}/repositories/clip-interrogator/data/
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -r ${ROOT}/repositories/CodeFormer/requirements.txt
 
+# Install Python dependencies (Worker Template)
+COPY builder/requirements.txt /requirements.txt
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install pyngrok \
-    git+https://github.com/TencentARC/GFPGAN.git@8d2447a2d918f8eba5a4a01463fd48e45126a379 \
-    git+https://github.com/openai/CLIP.git@d50d76daa670286dd6cacf3bcd80b5e4823fc8e1 \
-    git+https://github.com/mlfoundations/open_clip.git@bb6e834e9c70d9c27d0dc3ecedeebeaeb1ffad6b
+    pip install --upgrade pip && \
+    pip install --upgrade -r /requirements.txt --no-cache-dir && \
+    rm /requirements.txt
 
 ARG SHA=89f9faa63388756314e8a1d96cf86bf5e0663045
 RUN --mount=type=cache,target=/root/.cache/pip \
@@ -78,13 +79,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     git fetch && \
     git reset --hard ${SHA} && \
     pip install -r requirements_versions.txt
-
-# Install Python dependencies (Worker Template)
-COPY builder/requirements.txt /requirements.txt
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --upgrade pip && \
-    pip install --upgrade -r /requirements.txt --no-cache-dir && \
-    rm /requirements.txt
 
 ADD src .
 

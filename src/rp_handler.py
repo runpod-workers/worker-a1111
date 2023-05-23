@@ -10,6 +10,17 @@ automatic_session.mount('http://', HTTPAdapter(max_retries=retries))
 # ---------------------------------------------------------------------------- #
 #                              Automatic Functions                             #
 # ---------------------------------------------------------------------------- #
+def is_service_ready(url):
+    '''
+    Check if the service is ready to receive requests.
+    '''
+    try:
+        response = automatic_session.get(url, timeout=600)
+        return response.status_code == 200
+    except ConnectionError:
+        return False
+
+
 def run_inference(inference_request):
     '''
     Run inference on a request.
@@ -30,4 +41,6 @@ def handler(event):
     return json
 
 
-runpod.serverless.start({"handler": handler})
+if __name__ == "__main__":
+    if is_service_ready(url='http://127.0.0.1:3000/sdapi/v1/txt2img'):
+        runpod.serverless.start({"handler": handler})
