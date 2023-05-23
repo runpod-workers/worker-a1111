@@ -15,8 +15,8 @@ def is_service_ready(url):
     Check if the service is ready to receive requests.
     '''
     try:
-        response = automatic_session.get(url, timeout=600)
-        return response.status_code == 200
+        response = automatic_session.get(url, timeout=3)
+        return response.status_code == 405
     except ConnectionError:
         return False
 
