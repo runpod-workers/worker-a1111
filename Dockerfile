@@ -57,9 +57,7 @@ RUN --mount=type=cache,target=/root/.cache/pip  \
     --mount=type=bind,from=xformers,source=/wheel.whl,target=/xformers-0.0.20.dev528-cp310-cp310-manylinux2014_x86_64.whl \
     pip install /xformers-0.0.20.dev528-cp310-cp310-manylinux2014_x86_64.whl
 
-RUN mkdir ${ROOT}/repositories
 COPY --from=download /repositories/ ${ROOT}/repositories/
-
 RUN mkdir ${ROOT}/interrogate && cp ${ROOT}/repositories/clip-interrogator/data/* ${ROOT}/interrogate
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -r ${ROOT}/repositories/CodeFormer/requirements.txt
