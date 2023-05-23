@@ -2,3 +2,5 @@
 # Reccomended to lock the version number to avoid unexpected changes.
 
 runpod==0.9.4
+
+opencv-python-headless

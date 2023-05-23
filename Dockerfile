@@ -79,12 +79,11 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     git reset --hard ${SHA} && \
     pip install -r requirements_versions.txt
 
-RUN --mount=type=cache,target=/root/.cache/pip  pip install -U opencv-python-headless
-
 # Install Python dependencies (Worker Template)
 COPY builder/requirements.txt /requirements.txt
-RUN pip install --upgrade pip && \
-    pip install -r /requirements.txt --no-cache-dir && \
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --upgrade pip && \
+    pip install --upgrade -r /requirements.txt --no-cache-dir && \
     rm /requirements.txt
 
 ADD src .
