@@ -1,39 +1,32 @@
 <div align="center">
 
-<h1>Template | Worker</h1>
+<h1>Automatic1111 | Worker</h1>
 
 [![CI | Test Worker](https://github.com/runpod-workers/worker-template/actions/workflows/CI-test_worker.yml/badge.svg)](https://github.com/runpod-workers/worker-template/actions/workflows/CI-test_worker.yml)
 &nbsp;
 [![Docker Image](https://github.com/runpod-workers/worker-template/actions/workflows/CD-docker_dev.yml/badge.svg)](https://github.com/runpod-workers/worker-template/actions/workflows/CD-docker_dev.yml)
 
-🚀 | A simple worker that can be used as a starting point to build your own custom RunPod Endpoint API worker.
+This worker is a RunPod worker that uses the Stable Diffusion model for AI tasks. The worker is built upon the Stable Diffusion WebUI, which is a user interface for Stable Diffusion AI models.
 </div>
 
-## 📖 | Getting Started
+## Model
 
-1. Clone this repository.
-2. (Optional) Add DockerHub credentials to GitHub Secrets.
-3. Add your code to the `src` directory.
-4. Update the `handler.py` file to load models and process requests.
-5. Add any dependencies to the `requirements.txt` file.
-6. Add any other build time scripts to the`builder` directory, for example, downloading models.
-7. Update the `Dockerfile` to include any additional dependencies.
+The worker uses the Stable Diffusion model, which has been optimized for RunPod. This model is stored as a SafeTensors file, which is a format that facilitates efficient loading and execution of AI models. You may download the model file from the following link: here.
 
-### CI/CD
+## Building the Worker
 
-This repository is setup to automatically build and push a docker image to the GitHub Container Registry. You will need to add the following to the GitHub Secrets for this repository to enable this functionality:
+The worker is built using a Dockerfile. The Dockerfile specifies the base image, environment variables, system package dependencies, Python dependencies, and the steps to install and setup the Stable Diffusion WebUI. It also downloads the model and sets up the API server using supervisor.
 
-- `DOCKERHUB_USERNAME` | Your DockerHub username for logging in.
-- `DOCKERHUB_TOKEN` | Your DockerHub token for logging in.
-- `DOCKERHUB_REPO` | The name of the repository you want to push to.
-- `DOCKERHUB_IMG` | The name of the image you want to push to.
+The Python dependencies are specified in requirements.txt. The primary dependency is runpod==0.9.4.
 
-The `CD-docker_dev.yml` file will build the image and push it to the `dev` tag, while the `CD-docker_release.yml` file will build the image on releases and tag it with the release version.
+## Running the Worker
 
-The `CI-test_worker.yml` file will test the worker using the input provided by the `--test_input` argument when calling the file containing your handler. Be sure to update this workflow to install any dependencies you need to run your tests.
+The worker can be run using the start.sh script. This script starts the init system and runs the serverless handler script.
 
-## Best Practices
+## API
 
-Models should be part of your docker image, this can be accomplished by either copying them into the image or downloading them during the build process.
+The worker provides an API for inference. The API is set up using supervisor, and the configuration is specified in webui_api.conf. The API runs on port 3000.
 
-If using the input validation utility from the runpod python package, create a `schemas` python file where you can define the schemas, then import that file into your `handler.py` file.
+## Serverless Handler
+
+The serverless handler (rp_handler.py) is a Python script that handles inference requests. It defines a function handler(event) that takes an inference request, runs the inference using the Stable Diffusion model, and returns the output.

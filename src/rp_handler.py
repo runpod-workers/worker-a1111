@@ -12,15 +12,20 @@ automatic_session.mount('http://', HTTPAdapter(max_retries=retries))
 # ---------------------------------------------------------------------------- #
 #                              Automatic Functions                             #
 # ---------------------------------------------------------------------------- #
-def is_service_ready(url):
+def wait_for_service(url):
     '''
     Check if the service is ready to receive requests.
     '''
-    try:
-        response = requests.get(url, timeout=3)
-        return response.status_code == 405
-    except ConnectionError:
-        return False
+    while True:
+        try:
+            requests.get(url, timeout=3)
+            return
+        except requests.exceptions.RequestException:
+            print("Service not ready yet. Retrying...")
+        except Exception as err:
+            print("Error: ", err)
+
+        time.sleep(0.2)
 
 
 def run_inference(inference_request):
@@ -47,9 +52,7 @@ def handler(event):
 
 
 if __name__ == "__main__":
-    while is_service_ready(url='http://127.0.0.1:3000/sdapi/v1/txt2img'):
-        print("Service not ready yet. Retrying...")
-        time.sleep(0.2)
+    wait_for_service(url='http://127.0.0.1:3000/sdapi/v1/txt2img')
 
     print("WebUI API Service is ready. Starting RunPod...")
 
