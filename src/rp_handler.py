@@ -107,7 +107,7 @@ def handler(event):
             img2img_response = img2img_inference(input_data)
 
             # Return the final generated image
-            return img2img_response.json()
+            return img2img_response
         else:
             # Make a regular txt2img request
             json_response = txt2img_inference(input_data)
