@@ -81,9 +81,9 @@ RUN git clone https://github.com/Extraltodeus/multi-subject-render.git
 WORKDIR /
 
 # Copy the models and embeddings directories from the host to the container
-RUN echo "Copying files..." && \
-    cp -r /embeddings /stable-diffusion-webui/embeddings \
-    cp -r /models /stable-diffusion-webui/models
+RUN echo "Copying files..." 
+COPY models /stable-diffusion-webui/models 
+COPY embeddings /stable-diffusion-webui/embeddings
 
 RUN echo "Files copied successfully."
 
