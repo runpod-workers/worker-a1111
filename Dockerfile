@@ -74,6 +74,19 @@ ADD src .
 COPY builder/cache.py /stable-diffusion-webui/cache.py
 RUN cd /stable-diffusion-webui && python cache.py --use-cpu=all --ckpt /model.safetensors
 
+WORKDIR /stable-diffusion-webui/extensions
+RUN git clone https://github.com/Mikubill/sd-webui-controlnet.git
+RUN git clone https://github.com/Extraltodeus/multi-subject-render.git
+
+WORKDIR /
+
+# Copy the models and embeddings directories from the host to the container
+COPY /mnt/volume1/wimake/story-boards-ai/models/Stable-diffusion/runpod /stable-diffusion-webui/models/Stable-diffusion
+COPY /mnt/volume1/wimake/story-boards-ai/models/Lora /stable-diffusion-webui/models/Lora
+COPY /mnt/volume1/wimake/story-boards-ai/models/ControlNet /stable-diffusion-webui/models/ControlNet
+COPY /mnt/volume1/wimake/story-boards-ai/models/openpose /stable-diffusion-webui/models/openpose
+COPY /mnt/volume1/wimake/story-boards-ai/embeddings /stable-diffusion-webui/embeddings
+
 # Cleanup section (Worker Template)
 RUN apt-get autoremove -y && \
     apt-get clean -y && \
