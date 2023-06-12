@@ -82,7 +82,8 @@ WORKDIR /
 
 # Copy the models and embeddings directories from the host to the container
 RUN echo "Copying files..." && \
-    cp -r /home/markus/story-boards-ai/folders/ /stable-diffusion-webui/ 
+    cp -r /embeddings /stable-diffusion-webui/embeddings \
+    cp -r /models /stable-diffusion-webui/models
 
 RUN echo "Files copied successfully."
 
