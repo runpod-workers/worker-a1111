@@ -82,12 +82,9 @@ WORKDIR /
 
 # Copy the models and embeddings directories from the host to the container
 RUN echo "Copying files..." && \
-    cp /mnt/volume1/wimake/story-boards-ai/models/Stable-diffusion/runpod_models /stable-diffusion-webui/models/Stable-diffusion && \
-    cp -r /mnt/volume1/wimake/story-boards-ai/models/Lora /stable-diffusion-webui/models/Lora && \
-    cp -r /mnt/volume1/wimake/story-boards-ai/models/ControlNet /stable-diffusion-webui/models/ControlNet && \
-    cp -r /mnt/volume1/wimake/story-boards-ai/models/openpose /stable-diffusion-webui/models/openpose && \
-    cp -r /mnt/volume1/wimake/story-boards-ai/embeddings /stable-diffusion-webui/embeddings && \
-    echo "Files copied successfully."
+    cp -r /mnt/volume1/wimake/story-boards-ai/ /stable-diffusion-webui/ 
+
+RUN echo "Files copied successfully."
 
 # Cleanup section (Worker Template)
 RUN apt-get autoremove -y && \
