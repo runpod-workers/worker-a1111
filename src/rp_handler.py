@@ -48,16 +48,16 @@ def handler(event):
     '''
     This is the handler function that will be called by the serverless.
     '''
-    response = requests.post('https://etter.duckdns.org:1881/runpod', json={'message': "handler started"})
+    response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "handler started"})
 
     try:
         input_data = event["input"]
-        response = requests.post('https://etter.duckdns.org:1881/runpod', json={'message': "checking input"})
+        response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "checking input"})
 
 
         # Check if 2step is true in the JSON payload
         if input_data.get("2step", True):
-            response = requests.post('https://etter.duckdns.org:1881/runpod', json={'message': "2step = true"})
+            response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "2step = true"})
 
             # Get the assembly instructions from the "pos" field
             txt2img_assembly_instructions = "[frontpad][camera] shot of [prompt][backpad]"
@@ -75,17 +75,17 @@ def handler(event):
                 "[lora]", input_data.get("lora", "")
             )
 
-            response = requests.post('https://etter.duckdns.org:1881/runpod', json={'txt2img_assembled_prompt': txt2img_assembled_prompt})
+            response = requests.post('http://etter.duckdns.org:1881/runpod', json={'txt2img_assembled_prompt': txt2img_assembled_prompt})
 
 
             # Update the input data with the assembled prompt
             input_data["prompt"] = txt2img_assembled_prompt
 
-            response = requests.post('https://etter.duckdns.org:1881/runpod', json={'message': "requesting image"})
+            response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "requesting image"})
 
             # Make a txt2img request
             txt2img_response = txt2img_inference(input_data)
-            response = requests.post('https://etter.duckdns.org:1881/runpod', json={'message': "image received"})
+            response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "image received"})
 
             # Extract the generated image from the txt2img response
             generated_image = txt2img_response["images"][0]
@@ -109,7 +109,7 @@ def handler(event):
                 "[lora]", input_data.get("lora", "")
             )
 
-            response = requests.post('https://etter.duckdns.org:1881/runpod', json={'img2img_assembled_prompt': img2img_assembled_prompt})
+            response = requests.post('http://etter.duckdns.org:1881/runpod', json={'img2img_assembled_prompt': img2img_assembled_prompt})
 
 
             # Update the input data with the assembled prompt
@@ -117,14 +117,14 @@ def handler(event):
 
             # Make an img2img request using the updated input data
             img2img_response = img2img_inference(input_data)
-            response = requests.post('https://etter.duckdns.org:1881/runpod', json={'message': "image received"})
+            response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "image received"})
 
             # Return the final generated image
-            response = requests.post('https://etter.duckdns.org:1881/runpod', json={'message': "return"})
+            response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "return"})
 
             return img2img_response
         else:
-            response = requests.post('https://etter.duckdns.org:1881/runpod', json={'message': "2step <> true"})
+            response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "2step <> true"})
             # Get the assembly instructions from the "pos" field
             img2img_assembly_instructions = input_data.get("pos", "")
 
@@ -141,12 +141,12 @@ def handler(event):
                 "[lora]", input_data.get("lora", "")
             )
 
-            response = requests.post('https://etter.duckdns.org:1881/runpod', json={'img2img_assembled_prompt': img2img_assembled_prompt})
+            response = requests.post('http://etter.duckdns.org:1881/runpod', json={'img2img_assembled_prompt': img2img_assembled_prompt})
 
             # Make a regular txt2img request
             json_response = txt2img_inference(input_data)
 
-            response = requests.post('https://etter.duckdns.org:1881/runpod', json={'message': "return"})
+            response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "return"})
 
             # Return the regular response
             return json_response
