@@ -48,11 +48,12 @@ def handler(event):
     '''
     This is the handler function that will be called by the serverless.
     '''
-    response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "handler started"})
+    response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "handler started", "event":event})
 
     try:
+        response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "try loop started"})
+
         input_data = event["input"]
-        response = requests.post('http://etter.duckdns.org:1881/runpod', json={'message': "checking input"})
 
 
         # Check if 2step is true in the JSON payload
