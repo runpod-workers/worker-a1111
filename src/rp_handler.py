@@ -56,7 +56,7 @@ def handler(event):
         if input_data.get("2step", True):
 
             # Get the assembly instructions from the "pos" field
-            assembly_instructions = "[frontpad][camera] shot of [prompt][backpad]"
+            txt2img_assembly_instructions = "[frontpad][camera] shot of [prompt][backpad]"
 
             # Replace the placeholders in the txt2img assembly instructions with corresponding values
             txt2img_assembled_prompt = txt2img_assembly_instructions.replace(
@@ -72,7 +72,7 @@ def handler(event):
             )
 
             # Update the input data with the assembled prompt
-            input_data["prompt"] = assembled_prompt
+            input_data["prompt"] = txt2img_assembled_prompt
 
 
             # Make a txt2img request
@@ -85,10 +85,10 @@ def handler(event):
             input_data["init_images"] = [generated_image]
 
             # Get the assembly instructions from the "pos" field
-            assembly_instructions = input_data.get("pos", "")
+            img2img_assembly_instructions = input_data.get("pos", "")
 
             # Replace the placeholders in the assembly instructions with corresponding values
-            assembled_prompt = assembly_instructions.replace(
+            img2img_assembled_prompt = img2img_assembly_instructions.replace(
                 "[frontpad]", input_data.get("frontpad", "")
             ).replace(
                 "[backpad]", input_data.get("backpad", "")
@@ -101,7 +101,7 @@ def handler(event):
             )
 
             # Update the input data with the assembled prompt
-            input_data["prompt"] = assembled_prompt
+            input_data["prompt"] = img2img_assembled_prompt
 
             # Make an img2img request using the updated input data
             img2img_response = img2img_inference(input_data)
