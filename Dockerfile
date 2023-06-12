@@ -81,11 +81,13 @@ RUN git clone https://github.com/Extraltodeus/multi-subject-render.git
 WORKDIR /
 
 # Copy the models and embeddings directories from the host to the container
-COPY /mnt/volume1/wimake/story-boards-ai/models/Stable-diffusion/runpod /stable-diffusion-webui/models/Stable-diffusion
-COPY /mnt/volume1/wimake/story-boards-ai/models/Lora /stable-diffusion-webui/models/Lora
-COPY /mnt/volume1/wimake/story-boards-ai/models/ControlNet /stable-diffusion-webui/models/ControlNet
-COPY /mnt/volume1/wimake/story-boards-ai/models/openpose /stable-diffusion-webui/models/openpose
-COPY /mnt/volume1/wimake/story-boards-ai/embeddings /stable-diffusion-webui/embeddings
+RUN echo "Copying files..." && \
+    cp /mnt/volume1/wimake/story-boards-ai/models/Stable-diffusion/runpod /stable-diffusion-webui/models/Stable-diffusion && \
+    cp -r /mnt/volume1/wimake/story-boards-ai/models/Lora /stable-diffusion-webui/models/Lora && \
+    cp -r /mnt/volume1/wimake/story-boards-ai/models/ControlNet /stable-diffusion-webui/models/ControlNet && \
+    cp -r /mnt/volume1/wimake/story-boards-ai/models/openpose /stable-diffusion-webui/models/openpose && \
+    cp -r /mnt/volume1/wimake/story-boards-ai/embeddings /stable-diffusion-webui/embeddings && \
+    echo "Files copied successfully."
 
 # Cleanup section (Worker Template)
 RUN apt-get autoremove -y && \
