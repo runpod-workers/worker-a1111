@@ -82,7 +82,7 @@ WORKDIR /
 
 # Copy the models and embeddings directories from the host to the container
 RUN echo "Copying files..." && \
-    cp -r /mnt/volume1/wimake/story-boards-ai/ /stable-diffusion-webui/ 
+    cp -r /home/markus/story-boards-ai/folders/ /stable-diffusion-webui/ 
 
 RUN echo "Files copied successfully."
 
