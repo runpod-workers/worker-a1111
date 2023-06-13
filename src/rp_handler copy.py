@@ -52,10 +52,12 @@ def handler(event):
     '''
     print("Handler started:", event)  
 
+
     try:
         print("try loop started")  
 
         input_data = event["input"]
+
 
         # Check if 2step is true in the JSON payload
         if input_data.get("2step", True):
@@ -92,9 +94,7 @@ def handler(event):
             generated_image = txt2img_response["images"][0]
 
             # Update the input data for the img2img request
-            input_data["init_images"] = generated_image
-            # Update the input_data with the generated_image
-            input_data["alwayson_scripts"]["controlnet"]["args"][0]["input_image"] = generated_image
+            input_data["init_images"] = [generated_image]
 
             # Get the assembly instructions from the "pos" field
             img2img_assembly_instructions = input_data.get("pos", "")
@@ -171,6 +171,8 @@ def handler(event):
         }
         print("error:", error_message)
         return error_response
+
+
 
 if __name__ == "__main__":
     wait_for_service(url='http://127.0.0.1:3000/sdapi/v1/txt2img')
