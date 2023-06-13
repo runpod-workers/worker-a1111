@@ -27,6 +27,9 @@ RUN wget -O /model.safetensors https://civitai.com/api/download/models/15236
 # ---------------------------------------------------------------------------- #
 FROM python:3.10.9-slim
 
+RUN apt-get update && \
+    apt-get install -y nano
+
 ENV DEBIAN_FRONTEND=noninteractive \
     PIP_PREFER_BINARY=1 \
     LD_PRELOAD=libtcmalloc.so \
