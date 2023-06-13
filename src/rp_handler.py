@@ -56,6 +56,7 @@ def handler(event):
         print("try loop started")  
 
         input_data = event["input"]
+        prompt = input_data["prompt"]
 
         # Check if 2step is true in the JSON payload
         if input_data.get("2step", True):
@@ -93,9 +94,13 @@ def handler(event):
 
             # Update the input data for the img2img request
             input_data["init_images"] = [generated_image]
+
             # Update the input_data with the generated_image
             input_data["alwayson_scripts"]["controlnet"]["args"][0]["input_image"] = generated_image
 
+            # Update the input data with the original prompt
+            input_data["prompt"] = prompt
+            
             # Get the assembly instructions from the "pos" field
             img2img_assembly_instructions = input_data.get("pos", "")
 
