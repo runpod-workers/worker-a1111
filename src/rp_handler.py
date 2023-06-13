@@ -95,8 +95,18 @@ def handler(event):
             # Update the input data for the img2img request
             input_data["init_images"] = [generated_image]
 
-            # Update the input_data with the generated_image
-            input_data["alwayson_scripts"]["controlnet"]["args"][0]["input_image"] = generated_image
+            # Add a new entry in input_data for alwayson_scripts
+            input_data["alwayson_scripts"] = {
+                "controlnet": {
+                    "args": [
+                        {
+                            "input_image": generated_image,
+                            "module": "openpose",
+                            "model": "control_sd15_openpose [fef5e48e]",
+                        }
+                    ]
+                }
+            }
 
             # Update the input data with the original prompt
             input_data["prompt"] = prompt
