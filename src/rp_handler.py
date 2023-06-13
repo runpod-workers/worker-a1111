@@ -92,7 +92,7 @@ def handler(event):
             generated_image = txt2img_response["images"][0]
 
             # Update the input data for the img2img request
-            input_data["init_images"] = generated_image
+            input_data["init_images"] = [generated_image]
             # Update the input_data with the generated_image
             input_data["alwayson_scripts"]["controlnet"]["args"][0]["input_image"] = generated_image
 
