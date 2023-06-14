@@ -59,7 +59,7 @@ def handler(event):
         prompt = input_data["prompt"]
 
         # Check if 2step is true in the JSON payload
-        if input_data.get("2step", True):
+        if input_data.get("2step") is True:
             print("2step = true")
 
             # Get the assembly instructions from the "pos" field
