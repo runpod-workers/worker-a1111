@@ -146,10 +146,10 @@ def handler(event):
         else:
             print("2step <> true")
             # Get the assembly instructions from the "pos" field
-            img2img_assembly_instructions = input_data.get("pos", "")
+            txt2img_assembly_instructions = input_data.get("pos", "")
 
             # Replace the placeholders in the assembly instructions with corresponding values
-            img2img_assembled_prompt = img2img_assembly_instructions.replace(
+            txt2img_assembled_prompt = txt2img_assembly_instructions.replace(
                 "[frontpad]", input_data.get("frontpad", "")
             ).replace(
                 "[backpad]", input_data.get("backpad", "")
@@ -161,7 +161,10 @@ def handler(event):
                 "[lora]", input_data.get("lora", "")
             )
 
-            print("img2img_assembled_prompt:", img2img_assembled_prompt)
+            print("img2img_assembled_prompt:", txt2img_assembled_prompt)
+
+            # Update the input data with the assembled prompt
+            input_data["prompt"] = txt2img_assembled_prompt
 
             print("requesting image")
             # Make a regular txt2img request
