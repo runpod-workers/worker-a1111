@@ -23,4 +23,4 @@ jobs:
 
       - name: Test Worker
         run: |
-          python src/handler.py --test_input='{"input": "test"}'
+          python src/rp_handler.py --test_input='{"input": "test"}'
