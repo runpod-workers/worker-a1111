@@ -52,14 +52,15 @@ def handler(event):
     '''
     print("Handler started:", event)  
 
+
     try:
         print("try loop started")  
 
         input_data = event["input"]
-        prompt = input_data["prompt"]
+
 
         # Check if 2step is true in the JSON payload
-        if input_data.get("2step") is True:
+        if input_data.get("2step", True):
             print("2step = true")
 
             # Get the assembly instructions from the "pos" field
@@ -95,22 +96,6 @@ def handler(event):
             # Update the input data for the img2img request
             input_data["init_images"] = [generated_image]
 
-            # Add a new entry in input_data for alwayson_scripts
-            input_data["alwayson_scripts"] = {
-                "controlnet": {
-                    "args": [
-                        {
-                            "input_image": generated_image,
-                            "module": "openpose",
-                            "model": "control_sd15_openpose [fef5e48e]",
-                        }
-                    ]
-                }
-            }
-
-            # Update the input data with the original prompt
-            input_data["prompt"] = prompt
-            
             # Get the assembly instructions from the "pos" field
             img2img_assembly_instructions = input_data.get("pos", "")
 
@@ -146,10 +131,10 @@ def handler(event):
         else:
             print("2step <> true")
             # Get the assembly instructions from the "pos" field
-            txt2img_assembly_instructions = input_data.get("pos", "")
+            img2img_assembly_instructions = input_data.get("pos", "")
 
             # Replace the placeholders in the assembly instructions with corresponding values
-            txt2img_assembled_prompt = txt2img_assembly_instructions.replace(
+            img2img_assembled_prompt = img2img_assembly_instructions.replace(
                 "[frontpad]", input_data.get("frontpad", "")
             ).replace(
                 "[backpad]", input_data.get("backpad", "")
@@ -161,10 +146,7 @@ def handler(event):
                 "[lora]", input_data.get("lora", "")
             )
 
-            print("img2img_assembled_prompt:", txt2img_assembled_prompt)
-
-            # Update the input data with the assembled prompt
-            input_data["prompt"] = txt2img_assembled_prompt
+            print("img2img_assembled_prompt:", img2img_assembled_prompt)
 
             print("requesting image")
             # Make a regular txt2img request
@@ -189,6 +171,8 @@ def handler(event):
         }
         print("error:", error_message)
         return error_response
+
+
 
 if __name__ == "__main__":
     wait_for_service(url='http://127.0.0.1:3000/sdapi/v1/txt2img')

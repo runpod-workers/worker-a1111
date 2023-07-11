@@ -28,6 +28,9 @@ RUN wget -O /model.safetensors https://huggingface.co/stabilityai/stable-diffusi
 # ---------------------------------------------------------------------------- #
 FROM python:3.10.9-slim
 
+RUN apt-get update && \
+    apt-get install -y nano
+
 ENV DEBIAN_FRONTEND=noninteractive \
     PIP_PREFER_BINARY=1 \
     LD_PRELOAD=libtcmalloc.so \
