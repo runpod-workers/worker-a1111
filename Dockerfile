@@ -19,17 +19,14 @@ RUN . /clone.sh BLIP https://github.com/salesforce/BLIP.git 48211a1594f1321b00f1
     . /clone.sh k-diffusion https://github.com/crowsonkb/k-diffusion.git 5b3af030dd83e0297272d861c19477735d0317ec && \
     . /clone.sh clip-interrogator https://github.com/pharmapsychotic/clip-interrogator 2486589f24165c8e3b303f84e9dbbea318df83e8
 
-#RUN wget -O /model.safetensors https://civitai.com/api/download/models/15236
-RUN wget -O /model.safetensors https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-nonema-pruned.safetensors
+# RUN wget -O model.safetensors https://civitai.com/api/download/models/15236 
+RUN wget -O model.safetensors https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.safetensors 
 
 
 # ---------------------------------------------------------------------------- #
 #                        Stage 3: Build the final image                        #
 # ---------------------------------------------------------------------------- #
 FROM python:3.10.9-slim
-
-RUN apt-get update && \
-    apt-get install -y nano
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PIP_PREFER_BINARY=1 \
@@ -78,18 +75,19 @@ ADD src .
 COPY builder/cache.py /stable-diffusion-webui/cache.py
 RUN cd /stable-diffusion-webui && python cache.py --use-cpu=all --ckpt /model.safetensors
 
-WORKDIR /stable-diffusion-webui/extensions
+WORKDIR /extensions
 RUN git clone https://github.com/Mikubill/sd-webui-controlnet.git
 RUN git clone https://github.com/Extraltodeus/multi-subject-render.git
 
 WORKDIR /
 
 # Copy the models and embeddings directories from the host to the container
-RUN echo "Copying files..." 
-COPY models /stable-diffusion-webui/models 
+COPY test_input.json /
+COPY test_input_vanilla.json /
+COPY models/Lora /stable-diffusion-webui/models/Lora
+COPY models/ControlNet /stable-diffusion-webui/models/ControlNet
+COPY models/openpose /stable-diffusion-webui/models/openpose
 COPY embeddings /stable-diffusion-webui/embeddings
-
-RUN echo "Files copied successfully."
 
 # Cleanup section (Worker Template)
 RUN apt-get autoremove -y && \
