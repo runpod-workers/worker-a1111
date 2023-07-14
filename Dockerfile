@@ -20,7 +20,7 @@ RUN . /clone.sh BLIP https://github.com/salesforce/BLIP.git 48211a1594f1321b00f1
     . /clone.sh clip-interrogator https://github.com/pharmapsychotic/clip-interrogator 2486589f24165c8e3b303f84e9dbbea318df83e8
 
 # RUN wget -O model.safetensors https://civitai.com/api/download/models/15236 
-RUN wget -O model.safetensors https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.safetensors 
+# RUN wget -O model.safetensors https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.safetensors 
 
 
 # ---------------------------------------------------------------------------- #
@@ -51,7 +51,8 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -r requirements_versions.txt
 
 COPY --from=download /repositories/ ${ROOT}/repositories/
-COPY --from=download /model.safetensors /model.safetensors
+#COPY --from=download /model.safetensors /model.safetensors
+COPY v2-1_768-ema-pruned.safetensors  /model.safetensors
 RUN mkdir ${ROOT}/interrogate && cp ${ROOT}/repositories/clip-interrogator/data/* ${ROOT}/interrogate
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -r ${ROOT}/repositories/CodeFormer/requirements.txt
