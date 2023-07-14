@@ -1,0 +1,20 @@
+{
+  "input": {
+    "pos": "[frontpad][camera] shot of [prompt][backpad][lora]",
+    "frontpad": "",
+    "backpad": "",
+    "prompt": "a tall house in the middle of a forrest",
+    "height": 768,
+    "width": 432,
+    "camera": "wide",
+    "test": true,
+    "num_outputs": 1,
+    "steps": 50,
+    "2step": false,
+    "cfg_scale": 7.5,
+    "sampler_name": "KLMS",
+    "negative_prompt": "(deformed, distorted, disfigured:1.3), (photo photography photograph) (cartoon) (saturated) (grain) (deformed) (lowres) (lowpoly) (CG) (3d) (blurry) (out-of-focus) (depth_of_field) (duplicate) (watermark) (label) (signature) (text) (cropped) Easynegative_promptative, sexy, naked, picture in picture, frame, multiple limbs",
+    "seed": -1
+  },
+  "webhook": "http://etter.duckdns.org:1881/runpod"
+}
