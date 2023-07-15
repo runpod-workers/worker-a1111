@@ -49,12 +49,12 @@ def handler(event):
             "[lora]", input_data.get("lora", "")
         )
 
-        print("img2img_assembled_prompt:", txt2img_assembled_prompt)
         input_data["prompt"] = txt2img_assembled_prompt
+        print("txt2img_assembled_prompt:", txt2img_assembled_prompt)
         print("requesting image")
         json_response = txt2img_inference(input_data)
         print("image received")
-        print("return")
+        print("returning image to API")
 
         return json_response
     except Exception as e:
