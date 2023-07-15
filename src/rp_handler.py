@@ -50,41 +50,43 @@ def handler(event):
     '''
     This is the handler function that will be called by the serverless.
     '''
-    print("Handler started:", event)  
+    print("Handler started:", event)
 
     try:
-        print("try loop started")  
+        print("try loop started")
 
         input_data = event["input"]
         prompt = input_data["prompt"]
 
-        # Check if 2step is true in the JSON payload
-        if input_data.get("2step") is True:
-            print("2step = true")
+        # Get the assembly instructions from the "pos" field
+        txt2img_assembly_instructions = input_data.get("pos", "")
 
-            # Get the assembly instructions from the "pos" field
-            txt2img_assembly_instructions = "[frontpad][camera] shot of [prompt][backpad]"
+        # Replace the placeholders in the assembly instructions with corresponding values
+        txt2img_assembled_prompt = txt2img_assembly_instructions.replace(
+            "[frontpad]", input_data.get("frontpad", "")
+        ).replace(
+            "[backpad]", input_data.get("backpad", "")
+        ).replace(
+            "[camera]", input_data.get("camera", "")
+        ).replace(
+            "[prompt]", input_data.get("prompt", "")
+        ).replace(
+            "[lora]", input_data.get("lora", "")
+        )
 
-            # Replace the placeholders in the txt2img assembly instructions with corresponding values
-            txt2img_assembled_prompt = txt2img_assembly_instructions.replace(
-                "[frontpad]", "greyscale, cinematic,"
-            ).replace(
-                "[backpad]", ", professional lighting"
-            ).replace(
-                "[camera]", input_data.get("camera", "")
-            ).replace(
-                "[prompt]", input_data.get("prompt", "")
-            ).replace(
-                "[lora]", input_data.get("lora", "")
-            )
+        print("img2img_assembled_prompt:", txt2img_assembled_prompt)
 
-            print("txt2img_assembled_prompt:", txt2img_assembled_prompt) 
+        # Update the input data with the assembled prompt
+        input_data["prompt"] = txt2img_assembled_prompt
 
-            # Update the input data with the assembled prompt
-            input_data["prompt"] = txt2img_assembled_prompt
+        print("requesting image")
+        # Make a regular txt2img request
+        json_response = txt2img_inference(input_data)
+        print("image received")
 
-            print("requesting image")
+        print("return")
 
+<<<<<<< HEAD
             # Make a txt2img request
             txt2img_response = txt2img_inference(input_data)
             print("image received")
@@ -174,6 +176,10 @@ def handler(event):
 
             # Return the regular response
             return json_response
+=======
+        # Return the regular response
+        return json_response
+>>>>>>> b6e241abfbf03c6f2a0a259083baf3835a38dc4d
     except Exception as e:
         # Return a JSON error response
         error_message = "An error occurred: " + str(e)
@@ -193,6 +199,7 @@ if __name__ == "__main__":
     wait_for_service(url='http://127.0.0.1:3000/sdapi/v1/txt2img')
 
     print("WebUI API Service is ready. Starting RunPod...")
+<<<<<<< HEAD
 
     try:
         runpod.serverless.start({"handler": handler})
@@ -200,3 +207,5 @@ if __name__ == "__main__":
         error_message = "An error occurred while starting RunPod: " + str(e)
         print("error:", error_message)
     
+=======
+>>>>>>> b6e241abfbf03c6f2a0a259083baf3835a38dc4d
