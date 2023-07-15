@@ -6,8 +6,13 @@ from requests.adapters import HTTPAdapter, Retry
 automatic_session = requests.Session()
 retries = Retry(total=10, backoff_factor=0.1, status_forcelist=[502, 503, 504])
 automatic_session.mount('http://', HTTPAdapter(max_retries=retries))
-
+# ---------------------------------------------------------------------------- #
+#                              Automatic Functions                             #
+# ---------------------------------------------------------------------------- #
 def wait_for_service(url):
+    '''
+    Check if the service is ready to receive requests.
+    '''
     while True:
         try:
             requests.get(url)
@@ -15,12 +20,16 @@ def wait_for_service(url):
         except requests.exceptions.RequestException:
             print("Service not ready yet. Retrying...")
         except Exception as err:
-            print("Error:", err)
+            print("Error: ", err)
         time.sleep(0.2)
 
 def txt2img_inference(inference_request):
-    print("txt2img")
-    response = automatic_session.post(url='http://127.0.0.1:3000/sdapi/v1/txt2img', json=inference_request, timeout=600)
+    '''
+    Run inference on a request.
+    '''
+    response = automatic_session.post(url='http://127.0.0.1:3000/sdapi/v1/txt2img',
+                                      json=inference_request, timeout=600)
+
     return response.json()
 
 def img2img_inference(inference_request):
@@ -28,6 +37,9 @@ def img2img_inference(inference_request):
     response = automatic_session.post(url='http://127.0.0.1:3000/sdapi/v1/img2img', json=inference_request, timeout=600)
     return response.json()
 
+# ---------------------------------------------------------------------------- #
+#                                RunPod Handler                                #
+# ---------------------------------------------------------------------------- #
 def handler(event):
     print("Handler started:", event)
     try:
