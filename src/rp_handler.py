@@ -21,7 +21,7 @@ def wait_for_service(url):
         except requests.exceptions.RequestException:
             print("Service not ready yet. Retrying...")
         except Exception as err:
-            print("Error: ", err)
+            print("Error:", err)
 
         time.sleep(0.2)
 
@@ -161,10 +161,9 @@ def handler(event):
                 "[lora]", input_data.get("lora", "")
             )
 
-            print("img2img_assembled_prompt:", txt2img_assembled_prompt)
-
             # Update the input data with the assembled prompt
             input_data["prompt"] = txt2img_assembled_prompt
+            print("img2img_assembled_prompt:", input_data)
 
             print("requesting image")
             # Make a regular txt2img request
@@ -195,4 +194,9 @@ if __name__ == "__main__":
 
     print("WebUI API Service is ready. Starting RunPod...")
 
-    runpod.serverless.start({"handler": handler})
+    try:
+        runpod.serverless.start({"handler": handler})
+    except Exception as e:
+        error_message = "An error occurred while starting RunPod: " + str(e)
+        print("error:", error_message)
+    
