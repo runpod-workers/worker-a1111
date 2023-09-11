@@ -21,7 +21,7 @@ RUN . /clone.sh BLIP https://github.com/salesforce/BLIP.git 48211a1594f1321b00f1
 
 # RUN wget -O /model.safetensors https://civitai.com/api/download/models/15236
 RUN apk add --no-cache curl && \
-    curl --retry 5 -o /model.safetensors https://civitai.com/api/download/models/15236
+    curl -o /model.safetensors https://civitai.com/api/download/models/15236
 
 
 
