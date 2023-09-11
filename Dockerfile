@@ -19,9 +19,8 @@ RUN . /clone.sh BLIP https://github.com/salesforce/BLIP.git 48211a1594f1321b00f1
     . /clone.sh k-diffusion https://github.com/crowsonkb/k-diffusion.git 5b3af030dd83e0297272d861c19477735d0317ec && \
     . /clone.sh clip-interrogator https://github.com/pharmapsychotic/clip-interrogator 2486589f24165c8e3b303f84e9dbbea318df83e8
 
-# Install curl
-RUN apk add --no-cache curl
-RUN curl --retry 5 -o /model.safetensors https://civitai.com/api/download/models/15236
+# RUN wget -O /model.safetensors https://civitai.com/api/download/models/15236
+RUN wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 -O /model.safetensors https://civitai.com/api/download/models/15236
 
 
 # ---------------------------------------------------------------------------- #
