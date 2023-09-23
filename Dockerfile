@@ -20,7 +20,6 @@ RUN . /clone.sh BLIP https://github.com/salesforce/BLIP.git 48211a1594f1321b00f1
     . /clone.sh clip-interrogator https://github.com/pharmapsychotic/clip-interrogator 2486589f24165c8e3b303f84e9dbbea318df83e8 && \
     . /clone.sh generative-models https://github.com/Stability-AI/generative-models 45c443b316737a4ab6e40413d7794a7f5657c19f
 
-# RUN wget -O /model.safetensors https://civitai.com/api/download/models/15236
 RUN apk add --no-cache wget && \
     wget -O /model.safetensors https://civitai.com/api/download/models/15236
 
@@ -68,6 +67,11 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --upgrade -r /requirements.txt --no-cache-dir && \
     rm /requirements.txt
 
+RUN --mount=type=cache,target=/root/.cache/pip \
+    cd stable-diffusion-webui && \
+    git fetch && \
+    git reset --hard ${SHA} && \
+    pip install -r requirements_versions.txt
 ADD src .
 
 COPY builder/cache.py /stable-diffusion-webui/cache.py
