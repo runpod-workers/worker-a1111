@@ -67,11 +67,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --upgrade -r /requirements.txt --no-cache-dir && \
     rm /requirements.txt
 
-RUN --mount=type=cache,target=/root/.cache/pip \
-    cd stable-diffusion-webui && \
-    git fetch && \
-    git reset --hard ${SHA} && \
-    pip install -r requirements_versions.txt
 ADD src .
 
 COPY builder/cache.py /stable-diffusion-webui/cache.py
