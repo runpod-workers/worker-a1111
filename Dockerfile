@@ -30,6 +30,8 @@ RUN apk add --no-cache wget && \
 # ---------------------------------------------------------------------------- #
 FROM python:3.10.9-slim
 
+ARG SHA=5ef669de080814067961f28357256e8fe27544f4
+
 ENV DEBIAN_FRONTEND=noninteractive \
     PIP_PREFER_BINARY=1 \
     LD_PRELOAD=libtcmalloc.so \
@@ -49,7 +51,7 @@ RUN --mount=type=cache,target=/cache --mount=type=cache,target=/root/.cache/pip 
 RUN --mount=type=cache,target=/root/.cache/pip \
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
     cd stable-diffusion-webui && \
-    git reset --hard 5ef669de080814067961f28357256e8fe27544f4 && \
+    git reset --hard ${SHA} && \
     pip install -r requirements_versions.txt
 
 COPY --from=download /repositories/ ${ROOT}/repositories/
@@ -64,13 +66,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --upgrade pip && \
     pip install --upgrade -r /requirements.txt --no-cache-dir && \
     rm /requirements.txt
-
-ARG SHA=89f9faa63388756314e8a1d96cf86bf5e0663045
-RUN --mount=type=cache,target=/root/.cache/pip \
-    cd stable-diffusion-webui && \
-    git fetch && \
-    git reset --hard ${SHA} && \
-    pip install -r requirements_versions.txt
 
 ADD src .
 
