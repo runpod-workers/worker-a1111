@@ -3,7 +3,7 @@
 
 runpod==1.2.5
 
-pydantic==1.10.11
+pydantic==2.4.2
 opencv-python-headless
 pyngrok
 git+https://github.com/TencentARC/GFPGAN.git@8d2447a2d918f8eba5a4a01463fd48e45126a379
