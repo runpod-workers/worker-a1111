@@ -4,7 +4,7 @@ pydantic==1.10.11
 runpod==1.2.6
 
 # Image Processing Libraries
-opencv-python-headless==4.5.3
+opencv-python-headless==4.8.1.78
 Pillow==9.5.0
 scikit-image==0.21.0
 
