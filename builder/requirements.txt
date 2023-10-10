@@ -1,5 +1,5 @@
 # Core Libraries
-fastapi[all]>=0.90.1
+fastapi[all]>=0.94.0
 # pydantic>=1.10.11
 runpod==1.2.6
 
@@ -24,6 +24,7 @@ torch
 torchdiffeq==0.2.3
 torchsde==0.2.5
 transformers==4.30.2
+xformers==0.0.22
 
 # CLI and Development Utilities
 GitPython==3.1.35
