@@ -3,8 +3,6 @@
 # ---------------------------------------------------------------------------- #
 FROM alpine/git:2.36.2 as download
 
-RUN apk --no-cache add gperftools-dev
-
 COPY builder/clone.sh /clone.sh
 
 # Clone the repos and clean unnecessary files
