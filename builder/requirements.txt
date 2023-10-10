@@ -24,7 +24,6 @@ torch
 torchdiffeq==0.2.3
 torchsde==0.2.5
 transformers==4.30.2
-xformers==0.0.22
 
 # CLI and Development Utilities
 GitPython==3.1.35
