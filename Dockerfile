@@ -54,8 +54,8 @@ RUN --mount=type=cache,target=/cache --mount=type=cache,target=/root/.cache/pip 
 RUN --mount=type=cache,target=/root/.cache/pip \
     git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
     cd stable-diffusion-webui && \
-    git reset --hard ${SHA} && \
-    pip install -r requirements_versions.txt
+    git reset --hard ${SHA} &&
+#\ pip install -r requirements_versions.txt
 
 COPY --from=download /repositories/ ${ROOT}/repositories/
 COPY --from=download /model.safetensors /model.safetensors
@@ -79,9 +79,6 @@ RUN cd /stable-diffusion-webui && python cache.py --use-cpu=all --ckpt /model.sa
 RUN apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
-
-# Monkeypatch
-RUN pip uninstall -y pydantic && pip install pydantic==1.8.2
 
 # Set permissions and specify the command to run
 RUN chmod +x /start.sh
