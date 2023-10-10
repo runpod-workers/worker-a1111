@@ -27,7 +27,7 @@ torchsde==0.2.5
 transformers==4.30.2
 
 # CLI and Development Utilities
-GitPython==3.1.32
+GitPython==3.1.35
 pyngrok==7.0.0
 
 # Web and Networking Libraries
