@@ -3,6 +3,8 @@
 # ---------------------------------------------------------------------------- #
 FROM alpine/git:2.36.2 as download
 
+RUN apt-get update && apt-get install libgoogle-perftools-dev -y
+
 COPY builder/clone.sh /clone.sh
 
 # Clone the repos and clean unnecessary files
@@ -21,7 +23,7 @@ RUN . /clone.sh BLIP https://github.com/salesforce/BLIP.git 48211a1594f1321b00f1
     . /clone.sh generative-models https://github.com/Stability-AI/generative-models 45c443b316737a4ab6e40413d7794a7f5657c19f
 
 RUN apk add --no-cache wget && \
-    wget -O /model.safetensors https://civitai.com/api/download/models/15236
+    wget -q -O /model.safetensors https://civitai.com/api/download/models/15236
 
 
 
@@ -39,6 +41,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN export COMMANDLINE_ARGS="--skip-torch-cuda-test --precision full --no-half"
 
 RUN apt-get update && \
     apt install -y \
