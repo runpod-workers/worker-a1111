@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------------- #
 FROM alpine/git:2.36.2 as download
 
-RUN apt-get update && apt-get install libgoogle-perftools-dev -y
+RUN apk --no-cache add gperftools-dev
 
 COPY builder/clone.sh /clone.sh
 
@@ -43,6 +43,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN export COMMANDLINE_ARGS="--skip-torch-cuda-test --precision full --no-half"
+RUN export TORCH_COMMAND='pip install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/rocm5.6'
 
 RUN apt-get update && \
     apt install -y \
