@@ -1,7 +1,7 @@
 # Required Python packages get listed here, one per line.
 # Reccomended to lock the version number to avoid unexpected changes.
 
-runpod==1.2.5
+runpod==1.2.6
 
 pydantic==2.4.2
 opencv-python-headless
