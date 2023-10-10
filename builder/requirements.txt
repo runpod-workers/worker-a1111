@@ -28,7 +28,7 @@ transformers==4.30.2
 
 # CLI and Development Utilities
 GitPython==3.1.32
-pyngrok==5.1.0
+pyngrok==7.0.0
 
 # Web and Networking Libraries
 httpcore==0.15
