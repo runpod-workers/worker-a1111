@@ -80,6 +80,9 @@ RUN apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 
+# Monkeypatch
+RUN pip uninstall -y pydantic && pip install pydantic==1.8.2
+
 # Set permissions and specify the command to run
 RUN chmod +x /start.sh
 CMD /start.sh

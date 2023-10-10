@@ -20,7 +20,7 @@ def wait_for_service(url):
     '''
     while True:
         try:
-            requests.get(url)
+            requests.get(url, timeout=120)
             return
         except requests.exceptions.RequestException:
             print("Service not ready yet. Retrying...")
