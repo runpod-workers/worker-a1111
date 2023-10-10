@@ -28,7 +28,7 @@ RUN apk add --no-cache wget && \
 # ---------------------------------------------------------------------------- #
 #                        Stage 3: Build the final image                        #
 # ---------------------------------------------------------------------------- #
-FROM python:3.10.9-slim
+FROM python:3.10.9-slim as build_final_image
 
 ARG SHA=5ef669de080814067961f28357256e8fe27544f4
 
@@ -77,5 +77,6 @@ RUN apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 
+# Set permissions and specify the command to run
 RUN chmod +x /start.sh
 CMD /start.sh
