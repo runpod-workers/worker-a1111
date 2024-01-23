@@ -5,7 +5,7 @@ git+https://github.com/runpod/runpod-python.git
 
 # Image Processing Libraries
 opencv-python-headless==4.8.1.78
-Pillow==9.5.0
+Pillow==10.2.0
 scikit-image==0.21.0
 
 # Machine Learning Libraries
