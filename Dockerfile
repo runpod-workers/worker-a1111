@@ -46,7 +46,7 @@ COPY --from=download /model.safetensors /model.safetensors
 # Install Python dependencies (Worker Template)
 COPY builder/requirements.txt /requirements.txt
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --upgrade -r /requirements.txt --no-cache-dir && \
+    pip install --no-cache-dir runpod && \
     rm /requirements.txt
 
 ADD src .
