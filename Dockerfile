@@ -13,7 +13,7 @@ RUN apk add --no-cache wget && \
 # ---------------------------------------------------------------------------- #
 FROM python:3.10.14-slim as build_final_image
 
-ARG A1111_RELEASE=1.9.3
+ARG A1111_RELEASE=v1.9.3
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PIP_PREFER_BINARY=1 \
