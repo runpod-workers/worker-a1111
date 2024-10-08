@@ -1,7 +1,7 @@
 # Core Libraries
 fastapi[all]==0.94.0
 pydantic<2
-runpod==1.7.1
+runpod==1.7.2
 
 # Image Processing Libraries
 opencv-python-headless==4.8.1.78
