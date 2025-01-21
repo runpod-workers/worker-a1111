@@ -1,4 +1,4 @@
-from webui import initialize
+from webui_forge import initialize
 import modules.interrogate
 
 initialize.initialize()

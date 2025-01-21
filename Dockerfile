@@ -81,8 +81,13 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 ADD src .
 
-COPY builder/cache.py /stable-diffusion-webui-forge/cache.py
-RUN cd /stable-diffusion-webui-forge && python cache.py --use-cpu=all --ckpt /model.safetensors
+ENV PYTHONPATH="/stable-diffusion-webui-forge"
+WORKDIR /stable-diffusion-webui-forge
+# Rename webui.py to webui_forge.py
+RUN mv /stable-diffusion-webui-forge/webui.py /stable-diffusion-webui-forge/webui_forge.py
+
+COPY builder/cache.py /stable-diffusion-webui/cache.py
+RUN cd /stable-diffusion-webui && python cache.py --use-cpu=all --ckpt /model.safetensors
 
 # Cleanup section (Worker Template)
 RUN apt-get autoremove -y && \
