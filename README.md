@@ -1,33 +1,40 @@
 <div align="center">
 
-<h1>Automatic1111 | Worker</h1>
+<h1>Automatic1111 Stable Diffusion web UI</h1>
 
 [![RunPod](https://api.runpod.io/badge/runpod-workers/worker-a1111)](https://www.runpod.io/console/hub/runpod-workers/worker-a1111)
-[![CI | Test Worker](https://github.com/runpod-workers/worker-template/actions/workflows/CI-test_worker.yml/badge.svg)](https://github.com/runpod-workers/worker-template/actions/workflows/CI-test_worker.yml)
-&nbsp;
-[![Docker Image](https://github.com/runpod-workers/worker-template/actions/workflows/CD-docker_dev.yml/badge.svg)](https://github.com/runpod-workers/worker-template/actions/workflows/CD-docker_dev.yml)
 
-This worker is a RunPod worker that uses the Stable Diffusion model for AI tasks. The worker is built upon the Stable Diffusion WebUI, which is a user interface for Stable Diffusion AI models.
+Built upon the Stable Diffusion WebUI, this worker provides an API to generate images with Stable Diffusion models.
+
 </div>
 
-## Model
+## Features
 
-The worker uses the Stable Diffusion model, which has been optimized for RunPod. This model is stored as a SafeTensors file, which is a format that facilitates efficient loading and execution of AI models. You may download the model file from the following link: here.
+- Runs the [Automatic1111 Stable Diffusion WebUI](https://github.com/AUTOMATIC1111/stable-diffusion-webui) and exposes its txt2img API endpoint.
+- Comes pre-packaged with the [**Deliberate v6**](https://huggingface.co/XpucT/Deliberate) model (`Deliberate_v6.safetensors`).
 
-## Building the Worker
+## Usage
 
-The worker is built using a Dockerfile. The Dockerfile specifies the base image, environment variables, system package dependencies, Python dependencies, and the steps to install and setup the Stable Diffusion WebUI. It also downloads the model and sets up the API server using supervisor.
+The `input` object within your job request is forwarded directly to the `/sdapi/v1/txt2img` endpoint of the internal Automatic1111 API.
 
-The Python dependencies are specified in requirements.txt. The primary dependency is runpod==0.9.4.
+### Configuration
 
-## Running the Worker
+The `input` object accepts any valid parameter for the Automatic1111 `/sdapi/v1/txt2img` endpoint. Refer to the [Automatic1111 API Documentation](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/API) for a full list of available parameters (like `seed`, `sampler_name`, `batch_size`, `styles`, `override_settings`, etc.).
 
-The worker can be run using the start.sh script. This script starts the init system and runs the serverless handler script.
+### Example Request
 
-## API
+Here's an example payload to generate an image:
 
-The worker provides an API for inference. The API is set up using supervisor, and the configuration is specified in webui_api.conf. The API runs on port 3000.
-
-## Serverless Handler
-
-The serverless handler (handler.py) is a Python script that handles inference requests. It defines a function handler(event) that takes an inference request, runs the inference using the Stable Diffusion model, and returns the output.
+```json
+{
+  "input": {
+    "prompt": "a photograph of an astronaut riding a horse",
+    "negative_prompt": "text, watermark, blurry, low quality",
+    "steps": 25,
+    "cfg_scale": 7,
+    "width": 512,
+    "height": 512,
+    "sampler_name": "DPM++ 2M Karras"
+  }
+}
+```
