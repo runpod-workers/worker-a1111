@@ -1,4 +1,3 @@
-
 # ---------------------------------------------------------------------------- #
 #                         Stage 1: Download the models                         #
 # ---------------------------------------------------------------------------- #
@@ -44,9 +43,10 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 COPY --from=download /model.safetensors /model.safetensors
 
-# Install RunPod SDK
+# Copy requirements.txt and install dependencies
+COPY requirements.txt .
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --no-cache-dir runpod
+    pip install --no-cache-dir -r requirements.txt
 
 ADD src .
 
