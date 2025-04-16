@@ -1,0 +1,11 @@
+{
+  "title": "Automatic1111 Stable Diffusion",
+  "description": "This worker uses the Stable Diffusion model for AI image generation tasks. Built upon the Stable Diffusion WebUI, it provides an efficient interface for generating images with Stable Diffusion AI models.",
+  "type": "serverless",
+  "category": "image",
+  "iconUrl": "https://dummyimage.com/100x100/ff5733/fff&text=SD",
+  "config": {
+    "runsOn": "GPU",
+    "containerDiskInGb": 20
+  }
+}
