@@ -1,9 +1,11 @@
 {
-  "prompt": "a photo of an astronaut riding a horse on mars",
-  "negative_prompt": "blurry, bad quality",
-  "width": 512,
-  "height": 512,
-  "num_inference_steps": 20,
-  "guidance_scale": 7.5,
-  "seed": 42
+  "input": {
+    "prompt": "a photo of an astronaut riding a horse on mars",
+    "negative_prompt": "blurry, bad quality",
+    "width": 512,
+    "height": 512,
+    "num_inference_steps": 20,
+    "guidance_scale": 7.5,
+    "seed": 42
+  }
 }
