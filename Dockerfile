@@ -48,6 +48,9 @@ COPY requirements.txt .
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --no-cache-dir -r requirements.txt
 
+# Copy test input file
+COPY test_input.json .
+
 ADD src .
 
 COPY builder/cache.py /stable-diffusion-webui/cache.py
