@@ -1,23 +1,13 @@
-<div align="center">
-
 <h1>Automatic1111 Stable Diffusion web UI</h1>
 
 [![RunPod](https://api.runpod.io/badge/runpod-workers/worker-a1111)](https://www.runpod.io/console/hub/runpod-workers/worker-a1111)
 
-Built upon the Stable Diffusion WebUI, this worker provides an API to generate images with Stable Diffusion models.
+- Runs [Automatic1111 Stable Diffusion WebUI](https://github.com/AUTOMATIC1111/stable-diffusion-webui) and exposes its `txt2img` API endpoint
+- Comes pre-packaged with the [**Deliberate v6**](https://huggingface.co/XpucT/Deliberate) model
 
-</div>
-
-## Features
-
-- Runs the [Automatic1111 Stable Diffusion WebUI](https://github.com/AUTOMATIC1111/stable-diffusion-webui) and exposes its txt2img API endpoint.
-- Comes pre-packaged with the [**Deliberate v6**](https://huggingface.co/XpucT/Deliberate) model (`Deliberate_v6.safetensors`).
+---
 
 ## Usage
-
-The `input` object within your job request is forwarded directly to the `/sdapi/v1/txt2img` endpoint of the internal Automatic1111 API.
-
-### Configuration
 
 The `input` object accepts any valid parameter for the Automatic1111 `/sdapi/v1/txt2img` endpoint. Refer to the [Automatic1111 API Documentation](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/API) for a full list of available parameters (like `seed`, `sampler_name`, `batch_size`, `styles`, `override_settings`, etc.).
 
