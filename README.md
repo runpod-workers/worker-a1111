@@ -27,4 +27,4 @@ Here's an example payload to generate an image:
     "sampler_name": "DPM++ 2M Karras"
   }
 }
-```
+```.
