@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "tests": [
+    {
+      "name": "Basic Functionality Test",
+      "description": "Tests the basic functionality of the worker",
+      "input": {
+        "input": {
+          "prompt": "A test prompt"
+        }
+      },
+      "expected": {
+        "status": "success"
+      },
+      "timeout": 300
+    }
+  ]
+}
